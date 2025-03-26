@@ -2,7 +2,7 @@
 
 BIN_DIR="$(cd "$(dirname "$0")" && pwd)"
 JAR_PATH="$BIN_DIR/../build/libs/sit-vcs.jar"
-isDev=true  # Set to true for debugging
+isDev=false  # Set to true for debugging
 
 if [ ! -f "$JAR_PATH" ]; then
     echo "Error: Unable to find JAR file at $JAR_PATH"

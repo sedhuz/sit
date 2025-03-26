@@ -22,6 +22,10 @@ Because the world clearly needed another version control system and somehow you 
 1. Clone it `git clone https://github.com/sedhuz/sit.git` (yeah, i see the irony)
 2. Run it
 3. `sit init`
+4. Export the `/bin` to `$PATH` : add this line to your `~/.zshrc` or `~./bashrc`
+```bash
+export PATH="$HOME/Dev/Projects/Serious/sit-vcs/bin:$PATH"
+```
 
 Will it work? I dunno, I’ll check later.
 

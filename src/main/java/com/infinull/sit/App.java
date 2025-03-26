@@ -3,6 +3,7 @@ package com.infinull.sit;
 import com.infinull.sit.exception.SitException;
 import com.infinull.sit.message.MessageUtil;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -17,7 +18,22 @@ public class App {
         try {
             executeCommand(command, args);
         } catch (SitException e) {
+            System.out.println(e.getMessage());
             System.exit(e.getStatusCode());
+        }
+    }
+
+    public static void test(String[] args) {
+        if (args.length == 0) {
+            MessageUtil.printMsg("usage.message");
+            return;
+        }
+        String command = args[0];
+        args = Arrays.copyOfRange(args,1,args.length);
+        try {
+            executeCommand(command, args);
+        } catch (SitException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -29,9 +45,11 @@ public class App {
             Method runMethod = commandClass.getMethod("run", String[].class);
             runMethod.invoke(null, (Object) args);
         } catch (ClassNotFoundException e) {
-            MessageUtil.printMsgAndExit(1,"error.command.unknown", command);
-        } catch (Exception e) {
-            MessageUtil.printMsgAndExit(1,"error.command.execute", command);
+            throw new SitException(1,"error.command.unknown", command);
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new SitException(1,"error.command.execute", command);
+        } catch (InvocationTargetException e) {
+            throw (SitException) e.getTargetException();
         }
     }
 

@@ -22,41 +22,37 @@ import com.infinull.sit.message.MessageUtil;
 
 public class CatUtil {
     static void printObject(String sha) {
-        MessageUtil.printStringAndExit(0, getContent(sha));
+        MessageUtil.printMsg(getContent(sha)); // Print content
     }
 
     static void printSize(String sha) {
         String header = getHeader(sha);
         if (header == null) {
-            MessageUtil.printMsgAndExit(1, "error.object.reading", sha);
-            return;
+            throw new SitException(1, "error.object.reading", sha);
         }
         String[] parts = header.split(" ");
         if (parts.length < 2) {
-            MessageUtil.printMsgAndExit(1, "error.object.reading", sha);
+            throw new SitException(1, "error.object.reading", sha);
         }
-        MessageUtil.printStringAndExit(0, parts[1]); // Print size
+        throw new SitException(0, parts[1]); // Print size
     }
 
     static void printType(String sha) {
         String header = getHeader(sha);
         if (header == null) {
-            MessageUtil.printMsgAndExit(1, "error.object.reading", sha);
-            return;
+            throw new SitException(1, "error.object.reading", sha);
         }
         String[] parts = header.split(" ");
         if (parts.length < 2) {
-            MessageUtil.printMsgAndExit(1, "error.object.reading", sha);
+            throw new SitException(1, "error.object.reading", sha);
         }
-        MessageUtil.printStringAndExit(0, parts[0]); // Print type (e.g., "blob")
+        throw new SitException(0, parts[0]); // Print type (e.g., "blob")
     }
 
     static void checkExistence(String sha) {
         File objectFile = getObjectFile(sha);
-        if (objectFile != null && objectFile.exists()) {
-            MessageUtil.printStringAndExit(0,"");
-        } else {
-            MessageUtil.printStringAndExit(1,"");
+        if (objectFile == null || !objectFile.exists()) {
+            throw new SitException(1,"");
         }
     }
 
@@ -107,8 +103,7 @@ public class CatUtil {
     private static byte[] readAndDecompress(String sha) {
         File objectFile = getObjectFile(sha);
         if (objectFile == null || !objectFile.exists()) {
-            MessageUtil.printMsgAndExit(1, "error.object.notfound", sha);
-            return null;
+            throw new SitException(1, "error.object.notfound", sha);
         }
         try (FileInputStream fis = new FileInputStream(objectFile); InflaterInputStream inflater = new InflaterInputStream(fis); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
@@ -118,8 +113,7 @@ public class CatUtil {
             }
             return baos.toByteArray();
         } catch (IOException e) {
-            MessageUtil.printMsgAndExit(1, "error.object.reading", sha);
-            return null;
+            throw new SitException(1, "error.object.reading", sha);
         }
     }
 }

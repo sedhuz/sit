@@ -38,18 +38,4 @@ public class MessageUtil {
 		String message = getMsg(key, args);
 		System.out.println(message);
 	}
-
-	public static void printMsgAndExit(Integer statusCode, String key, String... args) {
-		printMsg(key, args);
-		System.exit(statusCode);
-	}
-
-	public static void printString(String string) {
-		System.out.println(string);
-	}
-
-	public static void printStringAndExit(Integer statusCode, String string) {
-		System.out.println(string);
-		System.exit(statusCode);
-	}
 }

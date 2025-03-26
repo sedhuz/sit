@@ -1,7 +1,10 @@
 package com.infinull.sit;
 
+import com.infinull.sit.exception.SitException;
 import com.infinull.sit.message.MessageUtil;
+
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) {
@@ -9,30 +12,27 @@ public class App {
             MessageUtil.printMsg("usage.message");
             System.exit(1);
         }
-
         String command = args[0];
-        int statusCode = executeCommand(command);
-
-        System.exit(statusCode);
+        args = Arrays.copyOfRange(args,1,args.length);
+        try {
+            executeCommand(command, args);
+        } catch (SitException e) {
+            System.exit(e.getStatusCode());
+        }
     }
 
-    private static int executeCommand(String command) {
-        String className = "com.infinull.sit.cmd" + command.toLowerCase() + ".Sit" + capitalize(command);
+    private static void executeCommand(String command, String[] args) {
+        String className = "com.infinull.sit.cmd." + command.toLowerCase() + ".Sit" + capitalize(command);
 
         try {
-            // Load the class dynamically
             Class<?> commandClass = Class.forName(className);
-            Method runMethod = commandClass.getMethod("run");
-
-            // Invoke the run() method
-            return (int) runMethod.invoke(null);
+            Method runMethod = commandClass.getMethod("run", String[].class);
+            runMethod.invoke(null, (Object) args);
         } catch (ClassNotFoundException e) {
-            MessageUtil.printMsg("unknown.command", command);
+            MessageUtil.printMsgAndExit(1,"error.command.unknown", command);
         } catch (Exception e) {
-            e.printStackTrace();
-            MessageUtil.printMsg("command.error", command);
+            MessageUtil.printMsgAndExit(1,"error.command.execute", command);
         }
-        return 1;
     }
 
     private static String capitalize(String str) {

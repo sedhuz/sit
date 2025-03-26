@@ -1,20 +1,24 @@
 package com.infinull.sit.cmd.init;
 
+import com.infinull.sit.cmd.SitCommand;
 import com.infinull.sit.message.MessageUtil;
 import java.io.*;
 
-public class SitInit {
-	public static int run() {
+public class SitInit implements SitCommand {
+
+	public  static void run(String[] args) {
+		run();
+	}
+
+	public static void run() {
 		String cwd = System.getProperty("user.dir");
 		File sitDir = new File(cwd, ".git");
 
 		if (sitDir.exists()) {
 			if (sitDir.isDirectory()) {
-				MessageUtil.printMsg("git.exists");
-				return 1;
+				MessageUtil.printMsgAndExit(1, "git.exists");
 			} else {
-				MessageUtil.printMsg("git.is.file");
-				return 1;
+				MessageUtil.printMsgAndExit(1,"git.is.file");
 			}
 		} else {
 			if (sitDir.mkdirs()) {
@@ -28,23 +32,19 @@ public class SitInit {
 				try {
 					configFile.createNewFile();
 				} catch (IOException e) {
-					MessageUtil.printMsg("config.error");
-					return 1;
+					MessageUtil.printMsgAndExit(1, "config.error");
 				}
 
 				File headFile = new File(sitDir, "HEAD");
 				try (FileWriter writer = new FileWriter(headFile)) {
 					writer.write("ref: refs/heads/master");
 				} catch (IOException e) {
-					MessageUtil.printMsg("head.error");
-					return 1;
+					MessageUtil.printMsgAndExit(1,"head.error");
 				}
 
-				MessageUtil.printMsg("init.success", sitDir.getPath());
-				return 0;
+				MessageUtil.printMsgAndExit(0,"init.success", sitDir.getPath());
 			} else {
-				MessageUtil.printMsg("no.git.dir");
-				return 1;
+				MessageUtil.printMsgAndExit(1,"no.git.dir");
 			}
 		}
 	}

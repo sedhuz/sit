@@ -14,7 +14,7 @@ public class App {
             System.exit(1);
         }
         String command = args[0];
-        args = Arrays.copyOfRange(args,1,args.length);
+        args = Arrays.copyOfRange(args, 1, args.length);
         try {
             executeCommand(command, args);
         } catch (SitException e) {
@@ -29,7 +29,7 @@ public class App {
             return;
         }
         String command = args[0];
-        args = Arrays.copyOfRange(args,1,args.length);
+        args = Arrays.copyOfRange(args, 1, args.length);
         try {
             executeCommand(command, args);
         } catch (SitException e) {
@@ -45,9 +45,9 @@ public class App {
             Method runMethod = commandClass.getMethod("run", String[].class);
             runMethod.invoke(null, (Object) args);
         } catch (ClassNotFoundException e) {
-            throw new SitException(1,"error.command.unknown", command);
+            throw new SitException(1, "error.command.unknown", command);
         } catch (NoSuchMethodException | IllegalAccessException e) {
-            throw new SitException(1,"error.command.execute", command);
+            throw new SitException(1, "error.command.execute", command);
         } catch (InvocationTargetException e) {
             throw (SitException) e.getTargetException();
         }

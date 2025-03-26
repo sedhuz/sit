@@ -1,13 +1,13 @@
 package com.infinull.sit.cmd.catfile;
 
+import com.infinull.sit.exception.SitException;
+import com.infinull.sit.message.MessageUtil;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.zip.InflaterInputStream;
-
-import com.infinull.sit.exception.SitException;
-import com.infinull.sit.message.MessageUtil;
 
 /*
  * NOTE : Object files in git are compressed using zlib deflate, u have to inflate (decompress)
@@ -52,7 +52,7 @@ public class CatUtil {
     static void checkExistence(String sha) {
         File objectFile = getObjectFile(sha);
         if (objectFile == null || !objectFile.exists()) {
-            throw new SitException(1,"");
+            throw new SitException(1, "");
         }
     }
 

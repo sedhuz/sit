@@ -4,7 +4,9 @@ import com.infinull.sit.cmd.SitCommand;
 import com.infinull.sit.exception.SitException;
 import com.infinull.sit.message.MessageUtil;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class SitInit implements SitCommand {
 
@@ -44,7 +46,7 @@ public class SitInit implements SitCommand {
                     throw new SitException(1, "head.error");
                 }
 
-				MessageUtil.printMsg("init.success", sitDir.getPath());
+                MessageUtil.printMsg("init.success", sitDir.getPath());
             } else {
                 throw new SitException(1, "no.git.dir");
             }

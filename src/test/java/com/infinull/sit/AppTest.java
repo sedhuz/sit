@@ -1,12 +1,14 @@
 package com.infinull.sit;
 
 import com.infinull.sit.message.MessageUtil;
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
+import static org.junit.Assert.assertEquals;
 
 public class AppTest {
 
@@ -39,6 +41,6 @@ public class AppTest {
         String[] args = {"screwit"};
         App.test(args);
         String output = testOut.toString().trim();
-        assertEquals("Show command unknown error", output, MessageUtil.getMsg("error.command.unknown",args[0]));
+        assertEquals("Show command unknown error", output, MessageUtil.getMsg("error.command.unknown", args[0]));
     }
 }

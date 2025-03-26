@@ -1,5 +1,7 @@
 package com.infinull.sit.message;
 
+import com.infinull.sit.exception.SitException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -35,5 +37,19 @@ public class MessageUtil {
 	public static void printMsg(String key, String... args) {
 		String message = getMsg(key, args);
 		System.out.println(message);
+	}
+
+	public static void printMsgAndExit(Integer statusCode, String key, String... args) {
+		printMsg(key, args);
+		System.exit(statusCode);
+	}
+
+	public static void printString(String string) {
+		System.out.println(string);
+	}
+
+	public static void printStringAndExit(Integer statusCode, String string) {
+		System.out.println(string);
+		System.exit(statusCode);
 	}
 }

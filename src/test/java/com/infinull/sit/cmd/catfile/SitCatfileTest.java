@@ -2,6 +2,7 @@ package com.infinull.sit.cmd.catfile;
 
 import com.infinull.sit.App;
 import com.infinull.sit.SitTestWatcher;
+import com.infinull.sit.message.MessageUtil;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -12,6 +13,14 @@ public class SitCatfileTest {
     @Rule
     public SitTestWatcher watcher = new SitTestWatcher();
     private final String testObjectSha = "6ac6bb1e165002f2c9cb1a951bd8ad2032f78a44";
+
+    @Test
+    public void catfileUsage() {
+        String[] args = {"catfile"};
+        App.test(args);
+        String output = watcher.getOutput();
+        assertEquals("Display usage information", MessageUtil.getMsg("usage.catfile"), output);
+    }
 
     @Test
     public void testPrintObject() {

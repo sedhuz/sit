@@ -8,9 +8,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:26.0-jre'
-
-    testImplementation 'junit:junit:4.12'
+    implementation 'com.google.guava:guava:32.0.1-android'
+    testImplementation 'junit:junit:4.13.2'
 }
 
 jar {
@@ -21,6 +20,27 @@ jar {
 
 test {
     dependsOn 'cleanTest'
+
+    testLogging {
+        events "passed", "skipped"
+        exceptionFormat "full"
+    }
+
+    afterTest { descriptor, result ->
+
+        if (result.resultType == TestResult.ResultType.FAILURE) {
+            def RED = "\u001B[31m"
+            def RESET = "\u001B[0m"
+            println "\n============> TEST RESULT <=============="
+            println "${RED}TEST  : ${descriptor.name}${RESET}"
+            println "${RED}STATUS: FAILED${RESET}"
+            if (result.exception != null) {
+                def exception = result.exception
+                println "${RED}REASON: ${exception.message}${RESET}"
+            }
+            println "=========================================="
+        }
+    }
 }
 
 mainClassName = 'com.infinull.sit.App'

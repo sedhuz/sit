@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class App {
     public static void main(String[] args) {
         if (args.length == 0) {
-            MessageUtil.printMsg("usage.message");
+            MessageUtil.printMsg("usage.sit");
             System.exit(1);
         }
         String command = args[0];
@@ -25,7 +25,7 @@ public class App {
 
     public static void test(String[] args) {
         if (args.length == 0) {
-            MessageUtil.printMsg("usage.message");
+            MessageUtil.printMsg("usage.sit");
             return;
         }
         String command = args[0];
@@ -42,14 +42,15 @@ public class App {
 
         try {
             Class<?> commandClass = Class.forName(className);
+            Object commandClassInstance = commandClass.getDeclaredConstructor().newInstance();
             Method runMethod = commandClass.getMethod("run", String[].class);
-            runMethod.invoke(null, (Object) args);
-        } catch (ClassNotFoundException e) {
-            throw new SitException(1, "error.command.unknown", command);
-        } catch (NoSuchMethodException | IllegalAccessException e) {
-            throw new SitException(1, "error.command.execute", command);
+            runMethod.invoke(commandClassInstance, (Object) args);
         } catch (InvocationTargetException e) {
             throw (SitException) e.getTargetException();
+        } catch (ClassNotFoundException e) {
+            throw new SitException(1, "error.command.unknown", command);
+        } catch (Exception e) {
+            throw new SitException(1, "error.command.execute", command);
         }
     }
 

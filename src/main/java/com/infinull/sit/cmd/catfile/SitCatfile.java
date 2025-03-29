@@ -4,9 +4,10 @@ import com.infinull.sit.cmd.SitCommand;
 import com.infinull.sit.exception.SitException;
 
 public class SitCatfile implements SitCommand {
-    public static void run(String[] args) {
+
+    public void run(String[] args) {
         if (args.length < 2) { // Ensure 2 args are give flag & <obj_sha>
-            throw new SitException(1, "catfile.usage");
+            throw new SitException(1, "usage.catfile");
         }
 
         String flag = args[0];
@@ -15,14 +16,18 @@ public class SitCatfile implements SitCommand {
         switch (flag) {
             case "-p":
                 CatUtil.printObject(sha);
+                break;
             case "-s":
                 CatUtil.printSize(sha);
+                break;
             case "-t":
                 CatUtil.printType(sha);
+                break;
             case "-e":
                 CatUtil.checkExistence(sha);
+                break;
             default:
-                throw new SitException(1, "catfile.usage");
+                throw new SitException(1, "usage.catfile");
         }
     }
 }

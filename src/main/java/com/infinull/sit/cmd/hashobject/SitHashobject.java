@@ -7,22 +7,17 @@ public class SitHashobject implements SitCommand {
 
     @Override
     public void run(String[] args) {
-        if (args.length < 2) { // Ensure 2 args are give flag & <obj_sha>
+        if (args.length < 1 || args.length > 2) {
             throw new SitException(1, "usage.hashobject");
         }
 
-//        String flag = args[0];
-//        String filePathInRepo = args[1];
-//
-//        if (flag.charAt(0) == '-') {
-//
-//        }
-//
-//        switch (flag) {
-//            case "-w":
-//                CatUtil.printObject(filePath);
-//            default:
-//                throw new SitException(1, "usage.hashobject");
-//        }
+        String filePath = args[0];
+        boolean writeToGit = args.length == 2 && "-w".equals(args[0]);
+        if (writeToGit) {
+            filePath = args[1];
+        }
+
+        String sha = HashObjectUtil.getSha(filePath, writeToGit);
+        System.out.println(sha);
     }
 }

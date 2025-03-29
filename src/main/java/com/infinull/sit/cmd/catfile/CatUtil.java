@@ -103,7 +103,7 @@ public class CatUtil {
     private static byte[] readAndDecompress(String sha) {
         File objectFile = getObjectFile(sha);
         if (objectFile == null || !objectFile.exists()) {
-            throw new SitException(1, "error.object.notfound", sha);
+            throw new SitException(1, "error.object.exist", sha);
         }
         try (FileInputStream fis = new FileInputStream(objectFile); InflaterInputStream inflater = new InflaterInputStream(fis); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];

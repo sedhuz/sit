@@ -2,6 +2,7 @@ package com.infinull.sit.cmd.catfile;
 
 import com.infinull.sit.cmd.SitCommand;
 import com.infinull.sit.exception.SitException;
+import com.infinull.sit.object.Sha;
 
 public class SitCatfile implements SitCommand {
 
@@ -11,7 +12,7 @@ public class SitCatfile implements SitCommand {
         }
 
         String flag = args[0];
-        String sha = args[1];
+        Sha sha = new Sha(args[1]);
 
         switch (flag) {
             case "-p":

@@ -1,10 +1,10 @@
-package com.infinull.sit.cmd.catfile;
+package com.infinull.sit.commands.catfile;
 
-import com.infinull.sit.cmd.SitCommand;
+import com.infinull.sit.commands.SitCommand;
 import com.infinull.sit.exception.SitException;
-import com.infinull.sit.object.Sha;
+import com.infinull.sit.util.Sha;
 
-public class SitCatfile implements SitCommand {
+public class CatfileCommand implements SitCommand {
 
     public void run(String[] args) {
         if (args.length < 2) { // Ensure 2 args are give flag & <obj_sha>
@@ -16,16 +16,16 @@ public class SitCatfile implements SitCommand {
 
         switch (flag) {
             case "-p":
-                CatUtil.printObject(sha);
+                CatfileUtil.printObject(sha);
                 break;
             case "-s":
-                CatUtil.printSize(sha);
+                CatfileUtil.printSize(sha);
                 break;
             case "-t":
-                CatUtil.printType(sha);
+                CatfileUtil.printType(sha);
                 break;
             case "-e":
-                CatUtil.checkExistence(sha);
+                CatfileUtil.checkExistence(sha);
                 break;
             default:
                 throw new SitException(1, "usage.catfile");

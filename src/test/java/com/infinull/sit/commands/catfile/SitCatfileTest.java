@@ -1,4 +1,4 @@
-package com.infinull.sit.cmd.catfile;
+package com.infinull.sit.commands.catfile;
 
 import com.infinull.sit.App;
 import com.infinull.sit.SitTestWatcher;
@@ -62,7 +62,7 @@ public class SitCatfileTest {
         String[] args = {"catfile", "-p", testNonExistingObjectSha};
         App.test(args);
         String output = watcher.getOutput();
-        assertEquals("Print object does not exist", MessageUtil.getMsg("error.object.exist", testNonExistingObjectSha), output);
+        assertEquals("Print object does not exist", MessageUtil.getMsg("error.object.not_exist", testNonExistingObjectSha), output);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class SitCatfileTest {
         String[] args = {"catfile", "-s", testNonExistingObjectSha};
         App.test(args);
         String output = watcher.getOutput();
-        assertEquals("Print object does not exist", MessageUtil.getMsg("error.object.exist", testNonExistingObjectSha), output);
+        assertEquals("Print object does not exist", MessageUtil.getMsg("error.object.not_exist", testNonExistingObjectSha), output);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class SitCatfileTest {
         String[] args = {"catfile", "-t", testNonExistingObjectSha};
         App.test(args);
         String output = watcher.getOutput();
-        assertEquals("Print object does not exist", MessageUtil.getMsg("error.object.exist", testNonExistingObjectSha), output);
+        assertEquals("Print object does not exist", MessageUtil.getMsg("error.object.not_exist", testNonExistingObjectSha), output);
     }
 
     @Test

@@ -1,13 +1,13 @@
-package com.infinull.sit.cmd.init;
+package com.infinull.sit.commands.init;
 
-import com.infinull.sit.cmd.SitCommand;
+import com.infinull.sit.commands.SitCommand;
 import com.infinull.sit.exception.SitException;
 import com.infinull.sit.message.MessageUtil;
 
 import java.io.File;
 import java.io.IOException;
 
-public class SitInit implements SitCommand {
+public class InitCommand implements SitCommand {
 
     public void run(String[] args) {
         run();

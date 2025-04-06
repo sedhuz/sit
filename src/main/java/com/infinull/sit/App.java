@@ -38,7 +38,8 @@ public class App {
     }
 
     private static void executeCommand(String command, String[] args) {
-        String className = "com.infinull.sit.cmd." + command.toLowerCase() + ".Sit" + capitalize(command);
+        final String packageName = "com.infinull.sit.commands"; // Base package for commands
+        final String className = packageName + "." + command.toLowerCase() + "." + capitalize(command) + "Command";
 
         try {
             Class<?> commandClass = Class.forName(className);

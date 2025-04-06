@@ -12,33 +12,42 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 }
 
-jar {
+
+tasks.jar {
     manifest {
         attributes 'Main-Class': 'com.infinull.sit.App'
     }
 }
 
-test {
-    dependsOn 'cleanTest'
+tasks.test {
+    dependsOn tasks.cleanTest
 
     testLogging {
         events "passed", "skipped"
-        exceptionFormat "full"
+        exceptionFormat = "full"
     }
 
     afterTest { descriptor, result ->
-
         if (result.resultType == TestResult.ResultType.FAILURE) {
             def RED = "\u001B[31m"
             def RESET = "\u001B[0m"
-            println "\n============> TEST RESULT <=============="
-            println "${RED}TEST  : ${descriptor.name}${RESET}"
-            println "${RED}STATUS: FAILED${RESET}"
+            println "\n============> TEST FAILED <=============="
+            print("${RED}")
+            println "NAME   : ${descriptor.name}"
             if (result.exception != null) {
                 def exception = result.exception
-                println "${RED}REASON: ${exception.message}${RESET}"
+                println "REASON : ${exception.message}"
             }
-            println "=========================================="
+            print("${RESET}")
+            println "==========================================="
+        }
+    }
+
+    afterSuite { desc, result ->
+        if (!desc.parent) { // will match the outermost suite
+            def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
+            def repeatLength = output.length() + 6
+            println('\n' + ('=' * repeatLength) + '\n   ' + output + '\n' + ('=' * repeatLength))
         }
     }
 }

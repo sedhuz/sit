@@ -64,6 +64,12 @@ public class BlobObject extends SitObject {
         }
     }
 
+    public boolean doesObjectExist() {
+        String shaString = sha.getShaString();
+        File objectFile = new File(OBJECTS_DIR + File.separator + shaString.substring(0, 2) + File.separator + shaString.substring(2));
+        return objectFile.exists();
+    }
+
     // Helpers
     private Sha computeSha() throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-1");
@@ -85,14 +91,14 @@ public class BlobObject extends SitObject {
 
     private void validateFileExists(File file) {
         if (!file.exists()) {
-            throw new SitException(1, "error.file.exist.within.current.dir", absoluteFilePath, BASE_DIR);
+            throw new SitException(1, "error.file.not_exist_within_current_dir", absoluteFilePath, BASE_DIR);
         }
     }
 
     private Path validateAndNormalizePath(String absoluteFilePath) {
         Path path = Paths.get(BASE_DIR, absoluteFilePath).normalize();
         if (!path.startsWith(BASE_DIR)) {
-            throw new SitException(1, "error.file.exist.within.current.dir", absoluteFilePath, BASE_DIR);
+            throw new SitException(1, "error.file.not_exist_within_current_dir", absoluteFilePath, BASE_DIR);
         }
         return path;
     }

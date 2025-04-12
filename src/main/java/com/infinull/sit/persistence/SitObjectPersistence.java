@@ -1,7 +1,7 @@
 package com.infinull.sit.persistence;
 
 import com.infinull.sit.exception.SitException;
-import com.infinull.sit.object.SITOBJECTTYPES;
+import com.infinull.sit.object.SITOBJECTTYPE;
 import com.infinull.sit.object.SitObject;
 import com.infinull.sit.util.Sha;
 
@@ -44,12 +44,12 @@ public class SitObjectPersistence {
             throw new SitException(1, "error.object.header_format", objectData);
         }
 
-        SITOBJECTTYPES sitObjectType;
+        SITOBJECTTYPE sitObjectType;
         int size;
         String content = parts[1];
 
         try {
-            sitObjectType = SITOBJECTTYPES.fromString(headerParts[0]);
+            sitObjectType = SITOBJECTTYPE.fromString(headerParts[0]);
             size = Integer.parseInt(headerParts[1]);
         } catch (IllegalArgumentException e) {
             throw new SitException(1, "error.object.read", headerParts[0]);

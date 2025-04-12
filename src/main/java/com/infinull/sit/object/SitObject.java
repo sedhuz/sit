@@ -1,12 +1,14 @@
 package com.infinull.sit.object;
 
 import com.infinull.sit.exception.SitException;
+import com.infinull.sit.persistence.FILEMODE;
 import com.infinull.sit.util.Sha;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class SitObject {
-    private SITOBJECTTYPES objectType;
+    private SITOBJECTTYPE objectType;
     private int size;
     private String content;          // Used for text-based objects
     private byte[] contentBytes;     // Used for binary-safe content (like tree)
@@ -15,14 +17,14 @@ public class SitObject {
     SitObject() {
     }
 
-    SitObject(SITOBJECTTYPES objectType, String content) {
+    SitObject(SITOBJECTTYPE objectType, String content) {
         this.objectType = objectType;
         this.content = content;
         this.contentBytes = content.getBytes(StandardCharsets.UTF_8);
         this.size = contentBytes.length;
     }
 
-    SitObject(SITOBJECTTYPES objectType, byte[] contentBytes) {
+    SitObject(SITOBJECTTYPE objectType, byte[] contentBytes) {
         this.objectType = objectType;
         this.contentBytes = contentBytes;
         this.size = contentBytes.length;
@@ -40,11 +42,11 @@ public class SitObject {
     }
 
     // Getters
-    public SITOBJECTTYPES getObjectType() {
+    public SITOBJECTTYPE getObjectType() {
         return objectType;
     }
 
-    public void setObjectType(SITOBJECTTYPES objectType) {
+    public void setObjectType(SITOBJECTTYPE objectType) {
         this.objectType = objectType;
     }
 

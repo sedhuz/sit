@@ -1,6 +1,6 @@
 package com.infinull.sit.object;
 
-public enum SITOBJECTTYPES {
+public enum SITOBJECTTYPE {
     BLOB("blob"),
     TREE("tree"),
     COMMIT("commit"),
@@ -8,7 +8,7 @@ public enum SITOBJECTTYPES {
 
     private final String typeString;
 
-    SITOBJECTTYPES(String typeString) {
+    SITOBJECTTYPE(String typeString) {
         this.typeString = typeString;
     }
 
@@ -16,12 +16,17 @@ public enum SITOBJECTTYPES {
         return typeString;
     }
 
-    public static SITOBJECTTYPES fromString(String typeString) {
-        for (SITOBJECTTYPES objType : SITOBJECTTYPES.values()) {
+    public static SITOBJECTTYPE fromString(String typeString) {
+        for (SITOBJECTTYPE objType : SITOBJECTTYPE.values()) {
             if (objType.typeString.equalsIgnoreCase(typeString)) {
                 return objType;
             }
         }
         throw new IllegalArgumentException("Unknown object type: " + typeString);
+    }
+
+    @Override
+    public String toString() {
+        return typeString;
     }
 }

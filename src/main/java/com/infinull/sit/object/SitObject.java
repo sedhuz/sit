@@ -1,5 +1,6 @@
 package com.infinull.sit.object;
 
+import com.infinull.sit.exception.SitException;
 import com.infinull.sit.util.Sha;
 
 import java.nio.charset.StandardCharsets;
@@ -32,6 +33,9 @@ public class SitObject {
         this.objectType = objectType;
         this.content = content;
         this.contentBytes = content.getBytes(StandardCharsets.UTF_8);
+        if (size != getContentBytes().length) {
+            throw new SitException(1, "error.object.size.mismatch", size, getContentBytes().length);
+        }
         this.size = size;
     }
 

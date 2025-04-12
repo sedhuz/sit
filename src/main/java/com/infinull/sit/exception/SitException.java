@@ -11,7 +11,7 @@ public class SitException extends IllegalArgumentException {
         this.statusCode = 1;
     }
 
-    public SitException(int statusCode, String messageKey, String... args) {
+    public SitException(int statusCode, String messageKey, Object... args) {
         super(MessageUtil.getMsg(messageKey, args));
         this.statusCode = statusCode;
     }

@@ -3,7 +3,7 @@ package com.infinull.sit.commands.hashobject;
 import com.infinull.sit.App;
 import com.infinull.sit.SitTestWatcher;
 import com.infinull.sit.message.MessageUtil;
-import com.infinull.sit.object.BlobObject;
+import com.infinull.sit.persistence.SitFilePersistence;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -39,7 +39,6 @@ public class SitHashobjectTest {
         App.test(args);
         String output = watcher.getOutput();
         assertEquals("Write and display hash", MessageUtil.getMsg(TEST_OBJECT_SHA), output);
-        BlobObject sampleFileBlobObject = new BlobObject(TEST_FILE_PATH);
-        assertTrue("Check if the object exists", sampleFileBlobObject.doesObjectExist());
+        assertTrue("Check if the object exists", SitFilePersistence.fileExists(TEST_FILE_PATH));
     }
 }

@@ -1,19 +1,21 @@
 package com.infinull.sit.object;
 
+import com.infinull.sit.persistence.FILEMODE;
+
 import java.nio.file.Path;
 
 public abstract class FileBasedObject {
-    protected final SITOBJECTTYPES type;
-    protected String fileMode;
+    protected final SITOBJECTTYPE type;
+    protected FILEMODE fileMode;
     Path absolutePath;
 
-    public FileBasedObject(SITOBJECTTYPES type, String fileMode, Path absolutePath) {
+    public FileBasedObject(SITOBJECTTYPE type, FILEMODE fileMode, Path absolutePath) {
         this.type = type;
         this.fileMode = fileMode;
         this.absolutePath = absolutePath;
     }
 
-    public SITOBJECTTYPES getType() {
+    public SITOBJECTTYPE getType() {
         return type;
     }
 
@@ -21,7 +23,7 @@ public abstract class FileBasedObject {
         return type.getTypeString();
     }
 
-    public String getFileMode() {
+    public FILEMODE getFileMode() {
         return fileMode;
     }
 
@@ -29,7 +31,7 @@ public abstract class FileBasedObject {
         return absolutePath;
     }
 
-    public void setFileMode(String fileMode) {
+    public void setFileMode(FILEMODE fileMode) {
         this.fileMode = fileMode;
     }
 

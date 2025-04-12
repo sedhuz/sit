@@ -32,7 +32,7 @@ public class SitFilePersistence {
     private static TreeObject getTreeObject(File file) throws SitException {
         File[] childrenFiles = file.listFiles();
         ArrayList<FileBasedObject> children = new ArrayList<>();
-        TreeObject treeObject = new TreeObject(file.toPath().toAbsolutePath(), SitFileUtil.getFileMode(file), children);
+        TreeObject treeObject = new TreeObject(file.toPath().toAbsolutePath(), children);
 
         if (childrenFiles == null) {
             return treeObject;
@@ -56,7 +56,7 @@ public class SitFilePersistence {
         } catch (IOException e) {
             throw new SitException(1, "error.object.read", SitFileUtil.getRelativePathFromProjectRoot(filePath));
         }
-        return new BlobObject(filePath.toAbsolutePath(), SitFileUtil.getFileMode(file), fileData);
+        return new BlobObject(filePath.toAbsolutePath(), FILEMODE.fromFile(file), fileData);
     }
 
     // 2. Check if exists

@@ -1,5 +1,7 @@
 package com.infinull.sit.object;
 
+import com.infinull.sit.persistence.FILEMODE;
+
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
@@ -7,11 +9,11 @@ public class BlobObject extends FileBasedObject {
     String content;
 
     BlobObject() {
-        super(SITOBJECTTYPES.BLOB, null, null);
+        super(SITOBJECTTYPE.BLOB, null, null);
     }
 
-    public BlobObject(Path absolutePath, String fileMode, String content) {
-        super(SITOBJECTTYPES.BLOB, fileMode, absolutePath);
+    public BlobObject(Path absolutePath, FILEMODE fileMode, String content) {
+        super(SITOBJECTTYPE.BLOB, fileMode, absolutePath);
         this.content = content;
     }
 

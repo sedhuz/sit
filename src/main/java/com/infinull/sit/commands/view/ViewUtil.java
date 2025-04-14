@@ -8,7 +8,7 @@ import com.infinull.sit.util.Sha;
 public class ViewUtil {
     static void printObject(Sha sha) {
         SitObject sitObject = ObjectStore.get(sha);
-        System.out.printf("%s %s\n%s", sitObject.getType(), sitObject.getSize(), sitObject.getContent());
+        System.out.printf("%s %s\n%s%n", sitObject.getType(), sitObject.getSize(), sitObject.getContent());
     }
 
     static void printContent(Sha sha) {

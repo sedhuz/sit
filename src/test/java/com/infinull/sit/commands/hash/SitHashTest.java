@@ -1,4 +1,4 @@
-package com.infinull.sit.commands.hashobject;
+package com.infinull.sit.commands.hash;
 
 import com.infinull.sit.App;
 import com.infinull.sit.SitTestWatcher;
@@ -12,7 +12,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class SitHashobjectTest {
+public class SitHashTest {
 
     @Rule
     public SitTestWatcher watcher = new SitTestWatcher();
@@ -22,16 +22,16 @@ public class SitHashobjectTest {
     private final String TEST_FOLDER_SHA = "370ee4582d8c3684707241e851e7447155896535";
 
     @Test
-    public void testHashobjectUsage() {
-        String[] args = {"hashobject"};
+    public void testHashUsage() {
+        String[] args = {"hash"};
         App.test(args);
         String output = watcher.getOutput();
-        assertEquals("Display usage information", MessageUtil.getMsg("usage.hashobject"), output);
+        assertEquals("Display usage information", MessageUtil.getMsg("usage.hash"), output);
     }
 
     @Test
     public void testSampleFileHashMatch() {
-        String[] args = {"hashobject", TEST_FILE_PATH};
+        String[] args = {"hash", TEST_FILE_PATH};
         App.test(args);
         String output = watcher.getOutput();
         assertEquals("Display correct hash", MessageUtil.getMsg(TEST_FILE_SHA), output);
@@ -39,7 +39,7 @@ public class SitHashobjectTest {
 
     @Test
     public void testWriteSampleFileObject() {
-        String[] args = {"hashobject", "-w", TEST_FILE_PATH};
+        String[] args = {"hash", "-w", TEST_FILE_PATH};
         App.test(args);
         String output = watcher.getOutput();
         assertEquals("Write and display hash", MessageUtil.getMsg(TEST_FILE_SHA), output);
@@ -49,7 +49,7 @@ public class SitHashobjectTest {
 
     @Test
     public void testSampleFolderHashMatch() {
-        String[] args = {"hashobject", TEST_FOLDER_PATH};
+        String[] args = {"hash", TEST_FOLDER_PATH};
         App.test(args);
         String output = watcher.getOutput();
         assertEquals("Display correct hash", MessageUtil.getMsg(TEST_FOLDER_SHA), output);
@@ -57,7 +57,7 @@ public class SitHashobjectTest {
 
     @Test
     public void testWriteSampleFolderObject() {
-        String[] args = {"hashobject", "-w", TEST_FOLDER_PATH};
+        String[] args = {"hash", "-w", TEST_FOLDER_PATH};
         App.test(args);
         String output = watcher.getOutput();
         assertEquals("Write and display hash", MessageUtil.getMsg(TEST_FOLDER_SHA), output);

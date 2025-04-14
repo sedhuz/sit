@@ -1,12 +1,17 @@
-package com.infinull.sit.commands.catfile;
+package com.infinull.sit.commands.view;
 
 import com.infinull.sit.exception.SitException;
 import com.infinull.sit.object.SitObject;
 import com.infinull.sit.store.ObjectStore;
 import com.infinull.sit.util.Sha;
 
-public class CatfileUtil {
+public class ViewUtil {
     static void printObject(Sha sha) {
+        SitObject sitObject = ObjectStore.get(sha);
+        System.out.printf("%s %s\n%s", sitObject.getType(), sitObject.getSize(), sitObject.getContent());
+    }
+
+    static void printContent(Sha sha) {
         SitObject sitObject = ObjectStore.get(sha);
         System.out.println(sitObject.getContent());
     }

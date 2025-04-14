@@ -1,9 +1,9 @@
-package com.infinull.sit.cmd.hashobject;
+package com.infinull.sit.commands.hashobject;
 
-import com.infinull.sit.cmd.SitCommand;
+import com.infinull.sit.commands.SitCommand;
 import com.infinull.sit.exception.SitException;
 
-public class SitHashobject implements SitCommand {
+public class HashobjectCommand implements SitCommand {
 
     @Override
     public void run(String[] args) {
@@ -17,7 +17,7 @@ public class SitHashobject implements SitCommand {
             filePath = args[1];
         }
 
-        String sha = HashObjectUtil.getSha(filePath, writeToGit);
+        String sha = HashobjectUtil.getSha(filePath, writeToGit);
         System.out.println(sha);
     }
 }

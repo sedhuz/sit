@@ -21,7 +21,7 @@ public class MessageUtil {
         }
     }
 
-    public static String getMsg(String key, String... args) {
+    public static String getMsg(String key, Object... args) {
         String message = messages.getProperty(key);
         if (message == null) {
             return key;
@@ -32,7 +32,7 @@ public class MessageUtil {
         return message;
     }
 
-    public static void printMsg(String key, String... args) {
+    public static void printMsg(String key, Object... args) {
         String message = getMsg(key, args);
         System.out.println(message);
     }

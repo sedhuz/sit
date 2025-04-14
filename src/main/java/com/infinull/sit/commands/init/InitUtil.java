@@ -1,4 +1,4 @@
-package com.infinull.sit.cmd.init;
+package com.infinull.sit.commands.init;
 
 import com.infinull.sit.exception.SitException;
 

@@ -24,6 +24,6 @@ public class AppTest {
         String[] args = {"screwit"};
         App.test(args);
         String output = watcher.getOutput();
-        assertEquals("Show command unknown error", MessageUtil.getMsg("error.command.unknown", args[0]), output);
+        assertEquals("Show commands unknown error", MessageUtil.getMsg("error.command.unknown", args[0]), output);
     }
 }

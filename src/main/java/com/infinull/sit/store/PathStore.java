@@ -1,18 +1,23 @@
-package com.infinull.sit.persistence;
+package com.infinull.sit.store;
 
 import com.infinull.sit.exception.SitException;
+import com.infinull.sit.util.Sha;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class SitFileUtil {
+
+public final class PathStore {
 
     private static boolean initialized = false;
+
     private static Path PROJECT_ROOT_DIR; // The root directory of sit project
     private static Path OBJECTS_DIR; // The directory where objects are stored
     private static Path USER_DIR; // The directory where command is called
+
+    private PathStore() {
+    }  // Prevent instantiation
 
     public static void initialize() throws SitException {
         if (!initialized) {
@@ -37,18 +42,40 @@ public class SitFileUtil {
     // -- PATH Getters
 
     public static Path getProjectRootDir() {
+        ensureInit();
         return PROJECT_ROOT_DIR;
     }
 
     public static Path getObjectsDir() {
+        ensureInit();
         return OBJECTS_DIR;
     }
 
     public static Path getUserDir() {
+        ensureInit();
         return USER_DIR;
     }
 
+    private static void ensureInit() {
+        if (!initialized)
+            throw new IllegalStateException("SITPaths not initialized.");
+    }
+
     // -- Other Helpers
+
+    public static Path getObjectPath(Sha sha) {
+        ensureInit();
+        String shaString = sha.toString();
+        String objectFolder = shaString.substring(0, 2);
+        String objectFile = shaString.substring(2);
+        Path path = OBJECTS_DIR.resolve(objectFolder).resolve(objectFile).normalize();
+
+        if (!path.startsWith(OBJECTS_DIR)) {
+            throw new SitException(1, "error.file_object.illegal_access", shaString);
+        }
+
+        return path;
+    }
 
     public static String getRelativePathFromProjectRoot(Path path) {
         return PROJECT_ROOT_DIR.relativize(path).toString();
@@ -60,20 +87,6 @@ public class SitFileUtil {
             return PROJECT_ROOT_DIR.relativize(path).toString();
         } else {
             return path.toString();
-        }
-    }
-
-    public static String getFileMode(File file) {
-        if (file.isDirectory()) {
-            return "40000"; // directory
-        } else if (file.canExecute()) {
-            return "100755"; // executable
-        } else if (!file.canWrite()) {
-            return "100444"; // read-only
-        } else if (file.canWrite()) {
-            return "100644"; // read-write
-        } else {
-            return "100644"; // default
         }
     }
 }

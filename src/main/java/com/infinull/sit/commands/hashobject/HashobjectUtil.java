@@ -1,15 +1,15 @@
 package com.infinull.sit.commands.hashobject;
 
 import com.infinull.sit.object.SitObject;
-import com.infinull.sit.persistence.SitFilePersistence;
-import com.infinull.sit.persistence.SitObjectPersistence;
+import com.infinull.sit.store.FileStore;
+import com.infinull.sit.store.ObjectStore;
 
 public class HashobjectUtil {
     public static String getSha(String filePath, boolean canWriteFile) {
-        SitObject sitObject = SitFilePersistence.get(filePath).toSitObject();
+        SitObject sitObject = FileStore.get(filePath);
         if (canWriteFile) {
-            SitObjectPersistence.save(sitObject);
+            ObjectStore.save(sitObject);
         }
-        return sitObject.getSha().getShaString();
+        return sitObject.getSha().toString();
     }
 }

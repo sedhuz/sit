@@ -2,19 +2,20 @@ package com.infinull.sit.util;
 
 import com.infinull.sit.exception.SitException;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
-public class Sha {
+public final class Sha {
     private final String sha;      // Hex string
     private final byte[] shaBytes; // Raw bytes
 
     private static final String SHA1_REGEX = "^[0-9a-f]{40}$";
     private static final String SHA256_REGEX = "^[0-9a-f]{64}$";
-
-    // -- Constructor & Factory methods
 
     public Sha(String sha) {
         if (!isValidSha(sha)) {
@@ -29,63 +30,62 @@ public class Sha {
         this.sha = convertBytesToHex(this.shaBytes);
     }
 
-    public static Sha computeSha(String data) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-1");
-            byte[] shaBytes = digest.digest(data.getBytes(StandardCharsets.UTF_8));
-            return new Sha(shaBytes);
-        } catch (NoSuchAlgorithmException e) {
-            throw new SitException(1, "error.sha1.compute.file", data);
-        }
-    }
-
     public static Sha computeSha(byte[] data) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
-            byte[] shaBytes = digest.digest(data);
-            return new Sha(shaBytes);
+            byte[] hash = digest.digest(data);
+            return new Sha(hash);
         } catch (NoSuchAlgorithmException e) {
-            throw new SitException(1, "error.sha1.compute.file", new String(data));
+            throw new SitException(1, "error.sha1.compute.file", safeUtf8(data));
         }
     }
 
-    // -- Utility
+    public String toString() {
+        return sha;
+    }
 
-    private static String convertBytesToHex(byte[] shaBytes) {
-        StringBuilder shaStringBuilder = new StringBuilder();
-        for (byte b : shaBytes) {
-            shaStringBuilder.append(String.format("%02x", b));
+    public byte[] toBytes() {
+        return shaBytes.clone();
+    }
+
+    // -- Static Utils
+
+    private static String convertBytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder(bytes.length * 2);
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
         }
-        return shaStringBuilder.toString();
+        return sb.toString();
     }
 
     private static byte[] convertHexToBytes(String hex) {
         int len = hex.length();
-        byte[] data = new byte[len / 2];
-
+        byte[] result = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) Integer.parseInt(hex.substring(i, i + 2), 16);
+            result[i / 2] = (byte) Integer.parseInt(hex, i, i + 2, 16);
         }
-
-        return data;
+        return result;
     }
 
-    // -- Accessors
-
-    public String getShaString() {
-        return sha;
+    private static String safeUtf8(byte[] data) {
+        try {
+            return StandardCharsets.UTF_8
+                    .newDecoder()
+                    .onMalformedInput(CodingErrorAction.REPLACE)
+                    .onUnmappableCharacter(CodingErrorAction.REPLACE)
+                    .decode(ByteBuffer.wrap(data))
+                    .toString();
+        } catch (CharacterCodingException ignored) {
+            return "[decode failed for safe UTF-8]";
+        }
     }
 
-    public byte[] getShaBytes() {
-        return shaBytes.clone(); // Safe copy
+    public static boolean isValidSha(String sha) {
+        String s = sha.toLowerCase(Locale.ROOT);
+        return s.matches(SHA1_REGEX) || s.matches(SHA256_REGEX);
     }
 
-    public boolean isValidSha(String sha) {
-        return sha.matches(SHA1_REGEX) || sha.matches(SHA256_REGEX);
-    }
-
-    @Override
-    public String toString() {
-        return sha;
+    public boolean equals(Sha other) {
+        return this.sha.equals(other.sha);
     }
 }

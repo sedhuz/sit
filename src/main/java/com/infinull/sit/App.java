@@ -2,7 +2,7 @@ package com.infinull.sit;
 
 import com.infinull.sit.exception.SitException;
 import com.infinull.sit.message.MessageUtil;
-import com.infinull.sit.persistence.SitFileUtil;
+import com.infinull.sit.store.PathStore;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -45,7 +45,7 @@ public class App {
 
     // static initializers go here!
     private static void init() {
-        SitFileUtil.initialize();
+        PathStore.initialize();
     }
 
     private static void executeCommand(String command, String[] args) {

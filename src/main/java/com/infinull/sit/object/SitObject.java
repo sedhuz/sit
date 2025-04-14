@@ -1,89 +1,43 @@
 package com.infinull.sit.object;
 
-import com.infinull.sit.exception.SitException;
-import com.infinull.sit.persistence.FILEMODE;
+import com.infinull.sit.enums.SITOBJECTTYPE;
 import com.infinull.sit.util.Sha;
 
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+public abstract class SitObject {
 
-public class SitObject {
-    private SITOBJECTTYPE objectType;
-    private int size;
-    private String content;          // Used for text-based objects
-    private byte[] contentBytes;     // Used for binary-safe content (like tree)
+    protected SITOBJECTTYPE type;
 
-    // Constructors
     SitObject() {
     }
 
-    SitObject(SITOBJECTTYPE objectType, String content) {
-        this.objectType = objectType;
-        this.content = content;
-        this.contentBytes = content.getBytes(StandardCharsets.UTF_8);
-        this.size = contentBytes.length;
+    SitObject(SITOBJECTTYPE type) {
+        this.type = type;
     }
 
-    SitObject(SITOBJECTTYPE objectType, byte[] contentBytes) {
-        this.objectType = objectType;
-        this.contentBytes = contentBytes;
-        this.size = contentBytes.length;
-        this.content = new String(contentBytes, StandardCharsets.ISO_8859_1); // reversible
+    public SITOBJECTTYPE getType() {
+        return type;
     }
 
-    public SitObject(SITOBJECTTYPES objectType, int size, String content) {
-        this.objectType = objectType;
-        this.content = content;
-        this.contentBytes = content.getBytes(StandardCharsets.UTF_8);
-        if (size != getContentBytes().length) {
-            throw new SitException(1, "error.object.size.mismatch", size, getContentBytes().length);
-        }
-        this.size = size;
-    }
-
-    // Getters
-    public SITOBJECTTYPE getObjectType() {
-        return objectType;
-    }
-
-    public void setObjectType(SITOBJECTTYPE objectType) {
-        this.objectType = objectType;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public byte[] getContentBytes() {
-        return contentBytes;
-    }
-
-    // SHA + Serialization
-    public byte[] toByteArray() {
-        byte[] header = (objectType.getTypeString() + " " + size + "\0").getBytes(StandardCharsets.UTF_8);
-        byte[] result = new byte[header.length + contentBytes.length];
-        System.arraycopy(header, 0, result, 0, header.length);
-        System.arraycopy(contentBytes, 0, result, header.length, contentBytes.length);
-        return result;
+    public void setType(SITOBJECTTYPE type) {
+        this.type = type;
     }
 
     public Sha getSha() {
-        return Sha.computeSha(toByteArray());
+        return Sha.computeSha(serialize());
     }
 
-    public byte[] getShaBytes() {
-        return getSha().getShaBytes();
-    }
+    public abstract String getFullContent();
+
+    public abstract int getSize();
+
+    public abstract String getContent();
+
+    public abstract byte[] serialize();
 
     @Override
     public String toString() {
         return "SitObject{" +
-                "objectType=" + objectType +
-                ", size=" + size +
+                "type=" + type +
                 ", sha='" + getSha() + '\'' +
                 '}';
     }
